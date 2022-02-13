@@ -34,6 +34,10 @@ def controls():
       sys.exit()
     if choice not "y" or "n":
       print("Invalid answer. Closing in 5 seconds.")
+    if divisor<1:
+        print("Number too small! Closing in 5 seconds.")
+        time.sleep(5)
+        sys.exit()
    clickps=1/divisor
    print("OK. Trying to click at " + str(divisor))
    print("Higher CPS values might not be accurate.")
