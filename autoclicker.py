@@ -63,7 +63,7 @@ def main():
   listener1=Listener(on_press=on_press)
   listener1.start()
   controls()
-  while clicking=True:
+  while clicking==True:
     pyautogui.click()
     pyautogui.PAUSE = clicksps
 
