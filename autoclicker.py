@@ -1,73 +1,69 @@
 from pynput import keyboard
-import pyautogui
+from pynput.keyboard import *
 import sys
 import time
+import pyautogui
 
-clicking=False
-clicksps=float()
-clickingkey=Key.shift_l
-exitkey=Key.esc
+running=True
+notClicking=True
+resume_key=Key.up
+stop_key=Key.down
+exit_key=Key.esc
 
 
-def controls():
-  global clicksps
-  print("Enter the clicks per second you would like to click at.")
-  print("WARNING: A high clicks per second value may cause lag.") 
-  divisor=input()
-  try:
-    divisor=float(divisor)
-  except:
-    print("You did not enter a number!")
-    print("Closing in 5 seconds.")
-    time.sleep(5)
-    sys.exit()
-  if divisor>100:
-    print("This number is larger than 100 and may cause extreme lag! Are you SURE?")
-    print("y/n")
-    choice=input()
-    if choice=="y":
-      continue
-    if choice=="n":
-      print("OK. Closing the program in 5 seconds.")
-      time.sleep(5)
-      sys.exit()
-    if choice not "y" or "n":
-      print("Invalid answer. Closing in 5 seconds.")
-    if divisor<1:
-        print("Number too small! Closing in 5 seconds.")
+def on_press(key):
+    global running, notClicking
+    if key==resume_key:
+        notClicking=False
+        print("Clicking started. Trying to click at " + str(divisor) + "CPS, might not be accurate.")
+    if key==stop_key:
+        print("Clicking stopped.")
+        notClicking=True
+    if key==exit_key:
+        print("OK. Exiting.")
+        time.sleep(1)
+        sys.exit()
+    
+
+def helps():
+    global delayed, divisor
+
+    print("What would you like the clicks per second to be? (Might be very unaccurate!!)")
+    print("WARNING: A CPS value too high might cause lag.")
+    divisor=input()
+    try:
+        divisor=float(divisor)
+    except:
+        print("You did not enter a number. Exiting in 5 seconds.")
         time.sleep(5)
         sys.exit()
-   clickps=1/divisor
-   print("OK. Trying to click at " + str(divisor))
-   print("Higher CPS values might not be accurate.")
-   print("Press Left Shift to start clicking")
-   print("Press it again to stop.")
-   print("If you're experiencing errors, press esc to close the program.")
-
-
-def on_press(Key):
-  global clickingkey, exitkey
-  if Key==clickingkey:
-    if clicking=True:
-      print("OK. Stopped clicking.")
-      clicking=False
-    else:
-      print("OK. Clicking.")
-      clickingkey=True
-  if Key==exitkey:
-    print("Closing the program.")
-    sys.exit()
+    if divisor<1:
+        print("Number too small! Exiting in 5 seconds.")
+        time.sleep(5)
+        sys.exit()
+    if divisor>100:
+        print("Number too large. Exiting in 5 seconds.")
+        time.sleep(5)
+        sys.exit()
+    print("OK. CPS value set to " + str(divisor))
+    delayed=float()
+    delayed=1/divisor  
+    print("Press the up arrow to start clicking. Press the down arrow to stop. Press the ESC key to exit.")
 
 
 def main():
-  listener1=Listener(on_press=on_press)
-  listener1.start()
-  controls()
-  while clicking==True:
-    pyautogui.click()
-    pyautogui.PAUSE = clicksps
+    
+    listener1=Listener(on_press=on_press)
+    listener1.start()
 
+    helps()
 
+    while running:
+        if not notClicking:
+            pyautogui.click(pyautogui.position())
+            pyautogui.PAUSE=delayed
+    listener1.stop()
+
+    
 if __name__=="__main__":
-  main()
-
+    main()
