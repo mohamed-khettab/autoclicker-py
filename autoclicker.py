@@ -11,7 +11,6 @@ exitkey=Key.esc
 
 def controls():
   global clicksps
-  
   print("Enter the clicks per second you would like to click at.")
   print("WARNING: A high clicks per second value may cause lag.") 
   divisor=input()
@@ -45,9 +44,9 @@ def controls():
    print("Press it again to stop.")
    print("If you're experiencing errors, press esc to close the program.")
 
+
 def on_press(Key):
   global clickingkey, exitkey
-  
   if Key==clickingkey:
     if clicking=True:
       print("OK. Stopped clicking.")
@@ -58,6 +57,7 @@ def on_press(Key):
   if Key==exitkey:
     print("Closing the program.")
     sys.exit()
+
 
 def main():
   listener1=Listener(on_press=on_press)
@@ -70,4 +70,7 @@ def main():
 
 if __name__=="__main__":
   main()
+
+
+
 
