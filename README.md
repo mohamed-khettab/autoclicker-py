@@ -30,3 +30,4 @@ If you encounter any issues, message me on Discord.
 
 My Discord: mohames#5329
 
+(This is heavily inspired by ISayChris, check him out: https://github.com/isaychris)
