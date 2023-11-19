@@ -1,4 +1,3 @@
 # Python-Autoclicker
 
-A Python Customizable Autoclicker. 
-
+Autoclicker that I made in 8th grade
